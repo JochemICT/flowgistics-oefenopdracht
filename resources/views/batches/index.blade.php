@@ -1,8 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Batches') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Batches') }}
+            </h2>
+
+            <div class="flex space-x-1">
+                <a href="{{ route('batches.create') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{{__("Create")}}</a>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -44,6 +50,21 @@
                                         <td class="p-4">{{$batch->code}}</td>
                                         <td class="p-4">{{$batch->quantity}}</td>
                                         <td class="p-4">{{$batch->created_at->format("d-m-Y H:s")}}</td>
+                                        <td class="p-4 flex space-x-2">
+                                            <a href="{{route("batches.show", $batch->id)}}">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <div class="flex space-x-2">
+                                                <form action="{{ route('batches.destroy', $batch->id) }}" method="POST" onclick="return confirm('Weet je zeker dat je dit batch wilt verwijderen?');" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

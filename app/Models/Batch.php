@@ -17,6 +17,18 @@ class Batch extends Model
 
     //relations
     public function article(){
-        return $this->hasOne(Article::class);
+        return $this->belongsTo(Article::class);
+    }
+
+    public static function getNextBatchID(){
+        $last = Batch::orderBy('id', 'desc')->first();
+
+        if(!$last){
+            $id = 1;
+        }else{
+            $id = $last->id + 1;
+        }
+
+        return $id;
     }
 }

@@ -1,8 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Articles') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Articles') }}
+            </h2>
+
+            <div class="flex space-x-1">
+                <a href="{{ route('articles.create') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{{__("Create")}}</a>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -28,7 +34,7 @@
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                             <div class="flex space-x-2">
-                                                <form action="{{ route('articles.destroy', $article->id) }}" method="POST" onclick="return confirm('Weet je zeker dat je dit artikel wilt verwijderen?');" class="inline">
+                                                <form action="{{ route('articles.destroy', $article->id) }}" method="POST" onclick="return confirm('Weet je zeker dat je dit artikel wilt verwijderen? Alle batches worden ook verwijderd.');" class="inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit">

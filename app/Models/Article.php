@@ -41,4 +41,16 @@ class Article extends Model
     public function batches(){
         return $this->hasMany(Batch::class);
     }
+
+    public static function getNextArticleID(){
+        $last = Article::orderBy('id', 'desc')->first();
+
+        if(!$last){
+            $id = 1;
+        }else{
+            $id = $last->id + 1;
+        }
+
+        return $id;
+    }
 }

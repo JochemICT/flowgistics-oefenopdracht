@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BatchController;
+use App\Http\Controllers\PicklistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return redirect()->route('dashboard');
+})->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -19,8 +20,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//Articles
-Route::resource("articles", ArticleController::class);
-Route::resource("batches", BatchController::class);
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get("/dashboard", [PicklistController::class, 'index'])->name("dashboard");
+    Route::resource("articles", ArticleController::class);
+    Route::resource("batches", BatchController::class);
+    Route::resource("picklist", PicklistController::class);
+});
+
 
 require __DIR__.'/auth.php';
